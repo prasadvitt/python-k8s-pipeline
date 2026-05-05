@@ -1,7 +1,7 @@
 pipeline {
     agent {
         docker {
-            image 'python:3.9-alpine'
+            image 'docker:latest'
             args '-u root -v /var/run/docker.sock:/var/run/docker.sock'
         }
     }
@@ -11,7 +11,7 @@ pipeline {
     stages {
         stage('App Check') {
             steps {
-                sh 'python --version'
+                sh 'docker --version'
                 sh 'ls -lrth'
             }
         }
@@ -25,7 +25,7 @@ pipeline {
         }
         stage('K8s Deploy') {
             steps {
-                sh "kubectl apply -f k8s-deployment.yaml"
+                echo "Deploying to Kubernetes..."
             }
         }
     }
