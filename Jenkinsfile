@@ -2,11 +2,11 @@ pipeline {
     agent {
         docker {
             image 'python:3.9-alpine'
-            args '-v /var/run/docker.sock:/var/run/docker.sock'
+            args '-u root -v /var/run/docker.sock:/var/run/docker.sock'
         }
     }
     environment {
-        DOCKER_IMAGE = "prasadvitt/python-k8s-app"
+        DOCKER_IMAGE = "kalivara17/python-k8s-app"
     }
     stages {
         stage('App Check') {
@@ -19,7 +19,7 @@ pipeline {
             steps {
                 script {
                     sh "docker build -t ${DOCKER_IMAGE}:latest ."
-                    echo "Docker Image Build Successfully!"
+                    sh "docker push ${DOCKER_IMAGE}:latest"
                 }
             }
         }
